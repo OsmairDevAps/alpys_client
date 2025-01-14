@@ -25,8 +25,10 @@ export default function SelectProduct({products, setSelectProduct, setModalOpen}
           className="flex flex-row justify-start items-center h-14 px-6 bg-alpys-primary"
         >
           <Text className="text-alpys-tx-primary">{item.name}</Text>
-          <Text className="text-alpys-tx-primary"> - </Text>
-          <Text className="text-alpys-tx-primary">{item.price}</Text>
+          <Text className="text-alpys-tx-primary px-4">-</Text>
+          <Text className="text-alpys-tx-primary">
+            ({Intl.NumberFormat('pt-BR', {style:'currency', currency:'BRL'}).format(item.price)})
+          </Text>
         </TouchableOpacity>
       }
     />

@@ -8,6 +8,7 @@ import SelectProduct from '../components/SelectProduct'
 import { supabase } from '@/database/supabase'
 import { dataProduct } from '@/database/db'
 import { useOrderSupabase } from '@/database/useOrderDatabase'
+import { FontAwesome } from '@expo/vector-icons'
 
 export default function Orders() {
   const orderSupabase = useOrderSupabase()
@@ -96,9 +97,9 @@ export default function Orders() {
     }
   }
 
-  // useEffect(() => {
-  //   loadProducts()
-  // }, [])
+  useEffect(() => {
+    loadProducts()
+  }, [])
 
   return (
     <TouchableWithoutFeedback style={{flex: 1}} onPress={Keyboard.dismiss} >
@@ -158,6 +159,8 @@ export default function Orders() {
           <Button title="Submit" onPress={onSave} />
         </View>
               
+        <Button title='Minhas encomendas' type='Padrao' />
+
         <Modal transparent={true}
           animationType='fade'
           visible={isModalOpen}
@@ -165,7 +168,7 @@ export default function Orders() {
             setIsModalOpen(!isModalOpen)
         }}>
           <SelectProduct 
-            products={dataProduct}
+            products={products}
             setSelectProduct={setProduct}
             setModalOpen={setIsModalOpen}
           />
