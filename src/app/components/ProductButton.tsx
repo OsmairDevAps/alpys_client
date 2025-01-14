@@ -1,4 +1,4 @@
-import { Text, TouchableOpacity, TouchableOpacityProps } from "react-native";
+import { Text, TouchableOpacity, TouchableOpacityProps, View } from "react-native";
 
 interface Props extends TouchableOpacityProps {
   label?:string;
@@ -6,15 +6,17 @@ interface Props extends TouchableOpacityProps {
 }
 
 export default function ProductButton({label, title, ...rest}: Props) {
+  const styleActive = 'flex justify-center border-2 border-alpys-secondary rounded-lg bg-alpys-primary h-16 px-4'
+  const styleInactive = 'flex justify-center border-2 border-alpys-secondary rounded-lg bg-alpys-primary h-16 px-4'
   return (
-    <>
+    <View className='my-2'>
       {label && <Text className="text-alpys-tx-primary">{label}:</Text>}
       <TouchableOpacity 
         className="flex justify-center border-2 border-alpys-secondary rounded-lg bg-alpys-primary h-16 px-4"
         {...rest}
       >
-        <Text className="text-alpys-placeholder">{title}</Text>
+        <Text className={title === 'Produto' ? "text-alpys-placeholder" : "text-alpys-tx-primary"}>{title}</Text>
       </TouchableOpacity>
-    </>
+    </View>
   )
 }

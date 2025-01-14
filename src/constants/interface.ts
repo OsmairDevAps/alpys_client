@@ -7,6 +7,7 @@ export interface IProduct {
 export interface IOrder {
   id: number;
   client_name: string;
+  phone_client: string;
   product_name: string;
   amount: number;
   price: number;

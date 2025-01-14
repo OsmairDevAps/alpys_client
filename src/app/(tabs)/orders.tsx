@@ -1,8 +1,5 @@
 import { useState, useEffect } from 'react'
-import { View, Text, Modal, Switch } from 'react-native'
-import { useForm, Controller } from 'react-hook-form'
-import { z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
+import { TouchableWithoutFeedback, Keyboard, View, Text, Modal, Switch, Alert } from 'react-native'
 import Input from '../components/Input'
 import Button from '../components/Button'
 import ProductButton from '../components/ProductButton'
@@ -10,25 +7,17 @@ import { IProduct } from '@/constants/interface'
 import SelectProduct from '../components/SelectProduct'
 import { supabase } from '@/database/supabase'
 import { dataProduct } from '@/database/db'
-
-const orderSchema = z.object({
-  client_name: z.string().min(3, {message: 'É necessário informar um nome com no mínimo 3 caracteres.'}),
-  // product_name: z.string(),
-  // amount: z.number({invalid_type_error:'Numero inválido'}),
-  // price: z.number(),
-  // isdelivery: z.boolean(),
-  // deliveryfee: z.number(),
-  address: z
-    .string()
-    .min(5, {message: 'É necessário informar endereço com no mínimo 5 caracteres'}),
-  obs: z
-    .string()
-    .min(5, {message: 'É necessário informar observação com no mínimo 5 caracteres'})
-})
+import { useOrderSupabase } from '@/database/useOrderDatabase'
 
 export default function Orders() {
+  const orderSupabase = useOrderSupabase()
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [clientName, setClientName] = useState('')
+  const [phoneClient, setPhoneClient] = useState('')
+  const [amount, setAmount] = useState('')
   const [isDelivery, setIsDelivery] = useState(false)
+  const [address, setAddress] = useState('')
+  const [obs, setObs] = useState('')
   const [products, setProducts] = useState<IProduct[]>([])
   const [product, setProduct] = useState<IProduct>({
     id: 0,
@@ -36,12 +25,61 @@ export default function Orders() {
     price: 0,
     photo: ''
   })
-  const { handleSubmit, control, formState:{errors} } = useForm({
-    resolver: zodResolver(orderSchema)
-  })
 
-  function onSubmit(data: any) {
-    console.log(data)
+  async function onSave() {
+    let priceDelivery = 0
+    if (clientName==='') {
+      Alert.alert('O nome precisa ser preenchido.')
+      return
+    }
+    if (phoneClient === '') {
+      Alert.alert('O telefone precisa ser informado.')
+      return
+    } 
+    if (product.id === 0) {
+      Alert.alert('O produto precisa ser informado.')
+      return
+    } 
+    if (amount==='') {
+      Alert.alert('A quantidade precisa ser preenchida.')
+      return
+    }
+    if (isDelivery) {
+      if (address === '') {
+        Alert.alert('O endereço de entrega precisa ser informado.')
+        return
+      } 
+      priceDelivery = 10
+    }
+    try {
+      await orderSupabase.create({
+        client_name: clientName,
+        phone_client: phoneClient,
+        product_name: product.name,
+        amount: Number(amount),
+        price: (product.price * Number(amount)) + priceDelivery,
+        isdelivery: isDelivery,
+        deliveryfee: priceDelivery,
+        address: address,
+        obs: obs
+      })
+      Alert.alert('Encomenda solicitada com sucesso!')
+      //apos gravar
+      setClientName('')
+      setPhoneClient('')
+      setProduct({
+        id: 0,
+        name: 'Produto',
+        price: 0,
+        photo: ''
+      })
+      setAmount('')
+      setIsDelivery(false)
+      setAddress('')
+      setObs('')
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   async function loadProducts() {
@@ -53,8 +91,8 @@ export default function Orders() {
       if (error) {
         console.log(error)
       }
-    } catch (error) {
-      console.log(error)
+    } catch (err) {
+      console.log(err)
     }
   }
 
@@ -63,102 +101,77 @@ export default function Orders() {
   // }, [])
 
   return (
-    <View className='flex-1 bg-alpys-background p-4'>
-      <Text className='text-alpys-white text-xl'>ENCOMENDAS</Text>
+    <TouchableWithoutFeedback style={{flex: 1}} onPress={Keyboard.dismiss} >
+      <View className='flex-1 bg-alpys-background p-4'>
+        <Text className='text-alpys-white text-xl'>ENCOMENDAS</Text>
 
-      <View>
-        <Controller
-          control={control}
-          rules={{
-          required: true,
-          }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <Input
-              placeholder="Nome do cliente"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-            />
-          )}
-          name="client_name"
-        />
-        {errors.client_name && <Text>This is required.</Text>}
-
-        <ProductButton 
-          title={product.name} 
-          onPress={() => setIsModalOpen(true)} 
-        />
-        
-        <Controller 
-          control={control}
-          rules={{required: true}}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <Input 
-              placeholder='Quantidade'
-              keyboardType='numeric'
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-            />
-            )}
-          name="amount"
-        />
- 
-        <View className="flex flex-row w-full gap-4 justify-normal items-center h-16">
-          <Text className="text-orange-50">Para entrega?</Text>
-          <Switch
-            trackColor={{false: '#767577', true: '#dde6f5'}}
-            thumbColor={isDelivery ? '#ffa726' : '#f4f3f4'}
-            ios_backgroundColor="#3e3e3e"
-            onValueChange={setIsDelivery}
-            value={isDelivery}
+        <View>
+          <Input
+            placeholder="Nome completo"
+            onChangeText={setClientName}
+            value={clientName}
           />
-          <Text className="text-orange-50">{isDelivery ? 'Sim' : 'Não'}</Text>
+
+          <Input
+            placeholder="Telefone"
+            onChangeText={setPhoneClient}
+            keyboardType='number-pad'
+            value={phoneClient}
+          />
+
+          <ProductButton 
+            title={product.name} 
+            onPress={() => setIsModalOpen(true)} 
+          />
+          
+          <Input 
+            placeholder='Quantidade'
+            keyboardType='numeric'
+            onChangeText={setAmount}
+            value={amount}
+          />
+  
+          <View className="flex flex-row w-full gap-4 justify-normal items-center h-16">
+            <Text className="text-orange-50">Para entrega?</Text>
+            <Switch
+              trackColor={{false: '#767577', true: '#dde6f5'}}
+              thumbColor={isDelivery ? '#ffa726' : '#f4f3f4'}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={setIsDelivery}
+              value={isDelivery}
+            />
+            <Text className="text-orange-50">{isDelivery ? 'Sim' : 'Não'}</Text>
+          </View>
+
+          <Input 
+            placeholder='Endereço de entrega'
+            onChangeText={setAddress}
+            value={address}
+          />
+
+          <Input 
+            placeholder='Observação'
+            onChangeText={setObs}
+            value={obs}
+          />
+          
+          <Button title="Submit" onPress={onSave} />
         </View>
+              
+        <Modal transparent={true}
+          animationType='fade'
+          visible={isModalOpen}
+          onRequestClose={() => {
+            setIsModalOpen(!isModalOpen)
+        }}>
+          <SelectProduct 
+            products={dataProduct}
+            setSelectProduct={setProduct}
+            setModalOpen={setIsModalOpen}
+          />
+        </Modal>
 
-        <Controller 
-          control={control}
-          rules={{required: true}}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <Input 
-              placeholder='Endereço de entrega'
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-            />
-            )}
-          name="address"
-        />
-
-        <Controller 
-          control={control}
-          rules={{required: true}}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <Input 
-              placeholder='Observação'
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-            />
-            )}
-          name="obs"
-        />
-        
-        <Button title="Submit" onPress={handleSubmit(onSubmit)} />
       </View>
-            
-      <Modal transparent={true}
-        animationType='fade'
-        visible={isModalOpen}
-        onRequestClose={() => {
-           setIsModalOpen(!isModalOpen)
-      }}>
-        <SelectProduct 
-          products={dataProduct}
-          setSelectProduct={setProduct}
-          setModalOpen={setIsModalOpen}
-        />
-      </Modal>
-    </View>
+    </TouchableWithoutFeedback>
   )
 }
