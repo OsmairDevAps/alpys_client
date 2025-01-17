@@ -43,6 +43,18 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <TabBarIcon name="send" color={color} />,
         }}
       />
+      <Tabs.Screen name='mapaddress' 
+        options={{
+          title: 'Mapa',
+          tabBarIcon: ({ color }) => <TabBarIcon name="map" color={color} />,
+        }}
+      />
+      <Tabs.Screen name='address' 
+        options={{
+          title: 'Busca Endereço',
+          tabBarIcon: ({ color }) => <TabBarIcon name="address-card" color={color} />,
+        }}
+      />
     </Tabs>
   )
 }

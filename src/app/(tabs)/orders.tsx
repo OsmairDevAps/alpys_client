@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { TouchableWithoutFeedback, Keyboard, View, Text, Modal, Switch, Alert } from 'react-native'
+import { TouchableWithoutFeedback, Keyboard, View, Text, Modal, Switch, Alert, TouchableOpacity } from 'react-native'
 import Input from '../components/Input'
 import Button from '../components/Button'
 import ProductButton from '../components/ProductButton'
@@ -9,9 +9,11 @@ import { supabase } from '@/database/supabase'
 import { dataProduct } from '@/database/db'
 import { useOrderSupabase } from '@/database/useOrderDatabase'
 import { FontAwesome } from '@expo/vector-icons'
+import MapAddress from './mapaddress'
 
 export default function Orders() {
   const orderSupabase = useOrderSupabase()
+  const [isMapOpen, setIsMapOpen] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [clientName, setClientName] = useState('')
   const [phoneClient, setPhoneClient] = useState('')
@@ -97,6 +99,10 @@ export default function Orders() {
     }
   }
 
+  function OpenMap() {
+    setIsMapOpen(true)
+  }
+
   useEffect(() => {
     loadProducts()
   }, [])
@@ -124,7 +130,7 @@ export default function Orders() {
             title={product.name} 
             onPress={() => setIsModalOpen(true)} 
           />
-          
+
           <Input 
             placeholder='Quantidade'
             keyboardType='numeric'
@@ -149,6 +155,9 @@ export default function Orders() {
             onChangeText={setAddress}
             value={address}
           />
+          <TouchableOpacity onPress={OpenMap}>
+            <FontAwesome name='map-marker' size={24} className='text-alpys-secondary' />
+          </TouchableOpacity>
 
           <Input 
             placeholder='Observação'
@@ -172,6 +181,15 @@ export default function Orders() {
             setSelectProduct={setProduct}
             setModalOpen={setIsModalOpen}
           />
+        </Modal>
+
+        <Modal transparent={false}
+          animationType='fade'
+          visible={isMapOpen}
+          onRequestClose={() => {
+            setIsMapOpen(!isMapOpen)
+        }}>
+          <MapAddress />
         </Modal>
 
       </View>
