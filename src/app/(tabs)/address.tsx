@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, StyleSheet } from 'react-native';
+import Button from '../components/Button'
 import axios from 'axios';
 
 type AdressProps = {
@@ -45,7 +46,7 @@ export default function Address() {
         value={cep}
         onChangeText={setCep}
       />
-      <Button title="Buscar" onPress={buscarEndereco} />
+      <Button type='Padrao' title="Buscar" onPress={buscarEndereco} />
       {error ? <Text style={styles.error}>{error}</Text> : null}
       {endereco && (
         <View style={styles.result}>
