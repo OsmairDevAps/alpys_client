@@ -1,5 +1,14 @@
 import { useState, useEffect } from 'react'
-import { TouchableWithoutFeedback, Keyboard, View, Text, Modal, Switch, Alert, TouchableOpacity } from 'react-native'
+import { 
+  TouchableWithoutFeedback, 
+  Keyboard, 
+  View, 
+  Text, 
+  Modal, 
+  Switch, 
+  Alert, 
+  TouchableOpacity 
+} from 'react-native'
 import Input from '../components/Input'
 import Button from '../components/Button'
 import ProductButton from '../components/ProductButton'
@@ -10,10 +19,11 @@ import { dataProduct } from '@/database/db'
 import { useOrderSupabase } from '@/database/useOrderDatabase'
 import { FontAwesome } from '@expo/vector-icons'
 import MapAddress from './mapaddress'
+import Delivery from '../screens/delivery'
 
 export default function Orders() {
   const orderSupabase = useOrderSupabase()
-  const [isMapOpen, setIsMapOpen] = useState(false)
+  const [isDeliveryOpen, setIsDeliveryOpen] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [clientName, setClientName] = useState('')
   const [phoneClient, setPhoneClient] = useState('')
@@ -99,8 +109,8 @@ export default function Orders() {
     }
   }
 
-  function OpenMap() {
-    setIsMapOpen(true)
+  function OpenDelivery() {
+    setIsDeliveryOpen(true)
   }
 
   useEffect(() => {
@@ -148,26 +158,36 @@ export default function Orders() {
               value={isDelivery}
             />
             <Text className="text-orange-50">{isDelivery ? 'Sim' : 'Não'}</Text>
+
+            <TouchableOpacity
+             onPress={OpenDelivery}
+             className='ml-6 '
+            >
+              <FontAwesome 
+                name='address-card' 
+                size={24} 
+                color='#D45C05'
+                className='text-alpys-secondary' 
+              />
+            </TouchableOpacity>
           </View>
 
-          <Input 
+
+          {/* <Input 
             placeholder='Endereço de entrega'
             onChangeText={setAddress}
             value={address}
           />
-          <TouchableOpacity onPress={OpenMap}>
-            <FontAwesome name='map-marker' size={24} className='text-alpys-secondary' />
-          </TouchableOpacity>
 
           <Input 
             placeholder='Observação'
             onChangeText={setObs}
             value={obs}
-          />
+          /> */}
           
           <Button title="Submit" onPress={onSave} />
         </View>
-              
+        
         <Button title='Minhas encomendas' type='Padrao' />
 
         <Modal transparent={true}
@@ -183,13 +203,15 @@ export default function Orders() {
           />
         </Modal>
 
-        <Modal transparent={false}
-          animationType='fade'
-          visible={isMapOpen}
+        <Modal transparent={true}
+          animationType='slide'
+          visible={isDeliveryOpen}
           onRequestClose={() => {
-            setIsMapOpen(!isMapOpen)
+            setIsDeliveryOpen(!isDeliveryOpen)
         }}>
-          <MapAddress />
+          <Delivery 
+            setModalOpen={setIsDeliveryOpen}
+          />
         </Modal>
 
       </View>
