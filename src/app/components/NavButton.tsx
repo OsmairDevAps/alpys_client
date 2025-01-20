@@ -1,14 +1,17 @@
 import { Feather } from "@expo/vector-icons";
-import { TouchableOpacity, TouchableOpacityProps } from "react-native";
+import { Text, TouchableOpacity, TouchableOpacityProps } from "react-native";
 
 interface Props extends TouchableOpacityProps {
-    icon: 'arrow-left' | 'arrow-right' | 'x';
+    icon: keyof typeof Feather.glyphMap;
+    color: string;
+    title?: string;
 }
 
-export default function NavButton({ icon, ...rest }: Props) {
+export default function NavButton({ icon, color, title, ...rest }: Props) {
     return (
-        <TouchableOpacity {...rest}>
-            <Feather name={icon} size={24} color='#D45C05' />
+        <TouchableOpacity {...rest} className='flex flex-row gap-2 items-center'>
+            <Feather name={icon} size={24} color={color} />
+            {title && <Text style={{color: color}}>{title}</Text>}
         </TouchableOpacity>
     )
 }

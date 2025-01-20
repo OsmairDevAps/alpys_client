@@ -1,5 +1,5 @@
 import { View, Text, Image } from 'react-native'
-import { useRouter } from 'expo-router'
+import { useRouter, Link } from 'expo-router'
 import Input from './components/Input'
 import Button from './components/Button'
 import SocialButton from './components/SocialButton'
@@ -8,11 +8,11 @@ export default function Home() {
   const router = useRouter()
  
   function login() {
-    router.replace('(tabs)')
+    router.replace('/(tabs)')
   }
 
   return (
-    <View className='flex flex-1 bg-alpys-background p-6 gap-6 justify-center items-center'>
+    <View className='flex flex-1 bg-alpys-background p-6 gap-4 justify-center items-center'>
       <View className='flex justify-center items-center'>
         <Text className='text-alpys-white text-3xl'>Pensou presente,</Text>
         <Text className='text-alpys-white text-3xl'>Pensou Alpys</Text>
@@ -21,14 +21,23 @@ export default function Home() {
       
       <View className='flex gap-2 w-full p-4'>
         <Text>Faça seu login:</Text>
-        <Input placeholder='e-mail' />
-        <Input placeholder='senha' />
+        <Input 
+          icon='mail' 
+          color='#D45C05' 
+          placeholder='e-mail' 
+        />
+        <Input 
+          icon='key' 
+          color='#D45C05' 
+          placeholder='senha' 
+          secureTextEntry={true} 
+        />
         <Button title='Entrar' onPress={login} />
         
         <View className='flex flex-row justify-center items-center mt-2 mb-4 gap-4'>
           <Text className='text-alpys-tx-primary'>Esqueci a senha</Text>
           <Text className='text-alpys-tx-primary'>|</Text>
-          <Text className='text-alpys-tx-primary'>Não tenho cadastro</Text>
+          <Link href='/screens/register'><Text className='text-alpys-tx-primary'>Não tenho cadastro</Text></Link>
         </View>
 
         <SocialButton 

@@ -18,8 +18,9 @@ import { supabase } from '@/database/supabase'
 import { dataProduct } from '@/database/db'
 import { useOrderSupabase } from '@/database/useOrderDatabase'
 import { FontAwesome } from '@expo/vector-icons'
-import MapAddress from './mapaddress'
+import MapAddress from '../screens/mapaddress'
 import Delivery from '../screens/delivery'
+import NavButton from '../components/NavButton'
 
 export default function Orders() {
   const orderSupabase = useOrderSupabase()
@@ -120,7 +121,10 @@ export default function Orders() {
   return (
     <TouchableWithoutFeedback style={{flex: 1}} onPress={Keyboard.dismiss} >
       <View className='flex-1 bg-alpys-background p-4'>
-        <Text className='text-alpys-white text-xl'>ENCOMENDAS</Text>
+        <View className='flex flex-row justify-between items-center'>
+          <Text className='text-alpys-white text-xl'>ENCOMENDAS</Text>
+          <NavButton icon='list' color='#ffffff' title='Meus Pedidos' />
+        </View>
 
         <View>
           <Input
@@ -172,7 +176,6 @@ export default function Orders() {
             </TouchableOpacity>
           </View>
 
-
           {/* <Input 
             placeholder='Endereço de entrega'
             onChangeText={setAddress}
@@ -185,11 +188,9 @@ export default function Orders() {
             value={obs}
           /> */}
           
-          <Button title="Submit" onPress={onSave} />
+          <Button title="Salvar" onPress={onSave} />
         </View>
         
-        <Button title='Minhas encomendas' type='Padrao' />
-
         <Modal transparent={true}
           animationType='fade'
           visible={isModalOpen}

@@ -80,7 +80,7 @@ export default function Home() {
 
         <View className='flex justify-center items-center border-2 border-alpys-primary'>
           <YoutubeIframe 
-            videoId='0GOUF8vNqzE'
+            videoId='lT504Mp59Pk'
             width={video_width}
             height={videoReady ? video_height : 0}
             onReady={() => setVideoReady(true)}
