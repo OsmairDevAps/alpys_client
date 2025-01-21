@@ -8,7 +8,7 @@ interface Props extends TouchableOpacityProps  {
 }
 
 export default function SocialButton({ logotipo, title, type, ...rest }: Props) {
-  const colorBgApple = 'flex flex-row justify-center items-center w-full h-16 bg-alpys-bg-apple rounded-xl'
+  const colorBgApple = 'flex flex-row justify-center items-center w-full h-16 bg-alpys-bg-apple rounded-xl border-[1px] border-alpys_tx_primary'
   const colorBgGoogle = 'flex flex-row justify-center items-center w-full h-16 bg-alpys-bg-google rounded-xl'
   const colorTxApple = 'text-alpys-tx-apple text-xl'
   const colorTxGoogle = 'text-alpys-tx-google text-xl'

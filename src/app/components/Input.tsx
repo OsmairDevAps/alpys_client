@@ -1,5 +1,6 @@
 import { Feather } from "@expo/vector-icons";
 import { View, TextInput, TextInputProps, Text } from "react-native";
+import theme from "@/theme";
 
 interface Props extends TextInputProps {
   label?: string;
@@ -19,7 +20,7 @@ export default function Input({ label, icon, color, ...rest }: Props) {
           </View>
         }
         <TextInput 
-          placeholderTextColor='#D45C05'
+          placeholderTextColor={theme.color.alpys_secondary}
           className="flex flex-1 text-alpys-tx-primary h-16 w-full px-4"
           {...rest}
         />

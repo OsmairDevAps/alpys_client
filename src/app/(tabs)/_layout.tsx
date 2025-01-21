@@ -1,6 +1,7 @@
 import { FontAwesome } from '@expo/vector-icons';
-import { Redirect, Tabs } from 'expo-router'
+import { Tabs } from 'expo-router'
 import Header from '../components/Header';
+import theme from '@/theme';
 
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
@@ -19,12 +20,12 @@ export default function TabLayout() {
     <Tabs 
       screenOptions={{
         tabBarHideOnKeyboard: true,
-        tabBarActiveTintColor: '#FFFFFF',
-        tabBarActiveBackgroundColor: '#1B0D00',
-        tabBarInactiveTintColor: '#F97316',
+        tabBarActiveTintColor: theme.color.alpys_tx_primary,
+        tabBarActiveBackgroundColor: theme.color.alpys_primary,
+        tabBarInactiveTintColor: theme.color.alpys_secondary,
         tabBarStyle: {
-          backgroundColor: '#1B0D00',
-          borderColor: '#F97316'
+          backgroundColor: theme.color.alpys_primary,
+          borderColor: theme.color.alpys_secondary
         },
         headerTintColor: '#ffffff',
         headerShown: true,

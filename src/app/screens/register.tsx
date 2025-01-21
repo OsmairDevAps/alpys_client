@@ -5,8 +5,9 @@ import { useForm } from "react-hook-form";
 import { Text, TextInput, View } from "react-native";
 import Button from "../components/Button";
 import Header from "../components/Header";
-import { InputRegister } from "../components/InputRegister";
+import InputRegister from "../components/InputRegister";
 import NavButton from "../components/NavButton";
+import theme from "@/theme";
 
 export default function Register() {
   const router = useRouter()
@@ -38,7 +39,7 @@ export default function Register() {
           <Text className="text-alpys-secondary text-xl">Novo Cadastro</Text>
           <NavButton 
             icon="x-square" 
-            color="#D45C05" 
+            color={theme.color.alpys_secondary}
             onPress={cancelRegister} 
           />
         </View>

@@ -45,4 +45,4 @@ const InputRegister = forwardRef<TextInput, Props> (({ icon, formProps, inputPro
   )
 })
 
-export { InputRegister }
+export default InputRegister
