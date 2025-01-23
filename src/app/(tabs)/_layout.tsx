@@ -20,14 +20,14 @@ export default function TabLayout() {
     <Tabs 
       screenOptions={{
         tabBarHideOnKeyboard: true,
-        tabBarActiveTintColor: theme.color.alpys_tx_primary,
-        tabBarActiveBackgroundColor: theme.color.alpys_primary,
-        tabBarInactiveTintColor: theme.color.alpys_secondary,
+        tabBarActiveTintColor: theme.color.tabBarActiveTintColor,
+        tabBarActiveBackgroundColor: theme.color.tabBarActiveBackgroundColor,
+        tabBarInactiveTintColor: theme.color.tabBarInactiveTintColor,
         tabBarStyle: {
-          backgroundColor: theme.color.alpys_primary,
-          borderColor: theme.color.alpys_secondary
+          backgroundColor: theme.color.tabBarStyle_bg,
+          borderColor: theme.color.tabBarStyle_border
         },
-        headerTintColor: '#ffffff',
+        headerTintColor: theme.color.headerTintColor,
         headerShown: true,
         header: () => <Header />
       }}

@@ -12,8 +12,8 @@ export default function Delivery({ setModalOpen }:Props) {
     }
     return (
         <View className="flex-1 p-4 bg-alpys-background mt-32 flex-row justify-between">
-            <Text className="text-alpys-tx-primary">Entregas:</Text>
-            <NavButton icon="x" color={theme.color.alpys_tx_primary} onPress={closeModal} />
+            <Text className="text-alpys-tx-text text-xl">Entregas:</Text>
+            <NavButton icon="x" color={theme.color.alpys_tx_text} onPress={closeModal} />
         </View>
     )
 }

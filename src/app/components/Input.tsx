@@ -11,17 +11,17 @@ interface Props extends TextInputProps {
 export default function Input({ label, icon, color, ...rest }: Props) {
   return (
     <View className="flex justify-start w-full gap-2 my-2">
-      {label && <Text className="text-orange-200 font-semibold text-lg">{label}</Text>}
+      {label && <Text className="text-alpys-tx-text font-semibold text-lg">{label}</Text>}
       
-      <View className="w-full flex-row items-center border-2 border-alpys-secondary rounded-lg bg-alpys-primary overflow-hidden">
+      <View className="w-full flex-row items-center rounded-lg bg-alpys-bg-input overflow-hidden">
         { icon &&
-          <View className="p-4 justify-center items-center border-r-2 border-alpys-secondary">
+          <View className="p-4 justify-center items-center border-r-[1px] border-alpys-placeholder-input">
             <Feather name={icon} size={24} color={color} />
           </View>
         }
         <TextInput 
-          placeholderTextColor={theme.color.alpys_secondary}
-          className="flex flex-1 text-alpys-tx-primary h-16 w-full px-4"
+          placeholderTextColor={theme.color.alpys_placeholder_input}
+          className="flex flex-1 text-alpys-tx-input h-16 w-full px-4"
           {...rest}
         />
       </View>

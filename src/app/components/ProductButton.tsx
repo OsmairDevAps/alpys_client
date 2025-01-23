@@ -12,10 +12,12 @@ export default function ProductButton({label, title, ...rest}: Props) {
     <View className='my-2'>
       {label && <Text className="text-alpys-tx-primary">{label}:</Text>}
       <TouchableOpacity 
-        className="flex justify-center border-2 border-alpys-secondary rounded-lg bg-alpys-primary h-16 px-4"
+        className="flex justify-center rounded-lg bg-alpys-bg-input h-16 px-4"
         {...rest}
       >
-        <Text className={title === 'Produto' ? "text-alpys-placeholder" : "text-alpys-tx-primary"}>{title}</Text>
+        <Text className={title === 'Produto' ? "text-alpys-placeholder-input" : "text-alpys-tx-input"}>
+          {title}
+        </Text>
       </TouchableOpacity>
     </View>
   )

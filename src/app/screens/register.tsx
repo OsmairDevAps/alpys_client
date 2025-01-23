@@ -1,4 +1,4 @@
-import { IUser, UserFormProps } from "@/constants/interface";
+import { UserFormProps } from "@/constants/interface";
 import { useRouter } from "expo-router";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
@@ -36,10 +36,10 @@ export default function Register() {
       <Header />
       <View className="p-6 gap-2">
         <View className="flex-row justify-between items-center mb-2">
-          <Text className="text-alpys-secondary text-xl">Novo Cadastro</Text>
+          <Text className="text-alpys-tx-text text-xl">Novo Cadastro</Text>
           <NavButton 
             icon="x-square" 
-            color={theme.color.alpys_secondary}
+            color={theme.color.alpys_tx_text}
             onPress={cancelRegister} 
           />
         </View>

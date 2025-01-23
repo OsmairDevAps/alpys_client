@@ -6,14 +6,14 @@ interface Props extends TouchableOpacityProps  {
 }
 
 export default function Button({ title, type, ...rest }: Props) {
-  const styleSubmit = 'flex justify-center items-center mt-2 w-full h-16 bg-alpys-secondary rounded-xl'
-  const styleNormal = 'flex justify-center items-center mt-2 w-full h-16 bg-blue-500 rounded-xl'
+  const styleSubmit = 'flex justify-center items-center mt-2 w-full h-16 bg-alpys-bg-submit rounded-xl'
+  const styleNormal = 'flex justify-center items-center mt-2 w-full h-16 bg-alpys-bg-button rounded-xl'
   return (
     <TouchableOpacity 
       {...rest}
       className={type === 'Padrao' ? styleNormal : styleSubmit}
     >
-      <Text className="text-alpys-white text-2xl">{ title }</Text>
+      <Text className="text-alpys-tx-button text-2xl">{ title }</Text>
     </TouchableOpacity>
   )
 }

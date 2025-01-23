@@ -15,7 +15,6 @@ import ProductButton from '../components/ProductButton'
 import { IProduct } from '@/constants/interface'
 import SelectProduct from '../components/SelectProduct'
 import { supabase } from '@/database/supabase'
-import { dataProduct } from '@/database/db'
 import { useOrderSupabase } from '@/database/useOrderDatabase'
 import { FontAwesome } from '@expo/vector-icons'
 import theme from '@/theme'
@@ -122,8 +121,8 @@ export default function Orders() {
     <TouchableWithoutFeedback style={{flex: 1}} onPress={Keyboard.dismiss} >
       <View className='flex-1 bg-alpys-background p-4'>
         <View className='flex flex-row justify-between items-center'>
-          <Text className='text-alpys-tx-primary text-xl'>ENCOMENDAS</Text>
-          <NavButton icon='list' color={theme.color.alpys_tx_primary} title='Meus Pedidos' />
+          <Text className='text-alpys-tx-text text-xl'>ENCOMENDAS</Text>
+          <NavButton icon='list' color={theme.color.alpys_tx_text} title='Meus Pedidos' />
         </View>
 
         <View>
@@ -153,7 +152,7 @@ export default function Orders() {
           />
   
           <View className="flex flex-row w-full gap-4 justify-normal items-center h-16">
-            <Text className="text-orange-50">Para entrega?</Text>
+            <Text className="text-alpys-tx-text">Para entrega?</Text>
             <Switch
               trackColor={{false: theme.color.alpys_switch_track_false, true: theme.color.alpys_switch_track_true}}
               thumbColor={isDelivery ? theme.color.alpys_switch_thumb_true : theme.color.alpys_switch_thumb_false}
@@ -161,7 +160,7 @@ export default function Orders() {
               onValueChange={setIsDelivery}
               value={isDelivery}
             />
-            <Text className="text-orange-50">{isDelivery ? 'Sim' : 'Não'}</Text>
+            <Text className="text-alpys-tx-text">{isDelivery ? 'Sim' : 'Não'}</Text>
 
             <TouchableOpacity
              onPress={OpenDelivery}
@@ -170,8 +169,8 @@ export default function Orders() {
               <FontAwesome 
                 name='address-card' 
                 size={24} 
-                color={theme.color.alpys_secondary}
-                className='text-alpys-secondary' 
+                color={theme.color.alpys_tx_input}
+                className='text-alpys-tx-text' 
               />
             </TouchableOpacity>
           </View>
